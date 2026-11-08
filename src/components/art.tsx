@@ -84,7 +84,7 @@ function charInner({ char, eq = {}, stage = 2, asleep }: CharProps) {
   const sprout = stage <= 1 && !eq.head ? `<path d="M120 30c0-10 2-16 6-20" stroke="#5E6E22" stroke-width="4" stroke-linecap="round" fill="none"/><ellipse cx="132" cy="10" rx="10" ry="6" transform="rotate(-25 132 10)" fill="#93A83C"/>` : '';
   const halo = stage >= 5 ? `<ellipse cx="120" cy="22" rx="40" ry="9" fill="none" stroke="#F0B429" stroke-width="5" opacity=".9"/>` : '';
   const star = stage >= 4 ? `<path d="M120 182l4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z" fill="#F0B429" opacity=".9"/>` : '';
-  const zzz = asleep ? `<g class="zzz" font-family="Unbounded,sans-serif" font-weight="800" fill="#6E4C68"><text x="178" y="40" font-size="20">z</text><text x="196" y="22" font-size="14">z</text></g>` : '';
+  const zzz = asleep ? `<g class="zzz" font-family="var(--fDisp)" style="font-family:var(--fDisp)" font-weight="800" fill="#6E4C68"><text x="178" y="40" font-size="20">z</text><text x="196" y="22" font-size="14">z</text></g>` : '';
   return `<defs>
     <radialGradient id="${P}fur" cx="38%" cy="28%" r="78%"><stop offset="0" stop-color="${c.fur[0]}"/><stop offset=".62" stop-color="${c.fur[1]}"/><stop offset="1" stop-color="${c.fur[2]}"/></radialGradient>
     <radialGradient id="${P}bel" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="${c.belly[0]}"/><stop offset="1" stop-color="${c.belly[1]}"/></radialGradient>

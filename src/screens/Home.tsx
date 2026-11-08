@@ -87,13 +87,13 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
             <Character char={p.char} eq={s.eq} stage={stage.index} asleep={asleep} label={p.cname} />
           </button>
         </motion.div>
-        <motion.p key={bubbleKey} aria-live="polite" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 18 }}
+        <motion.p key={bubbleKey} className="bubble" aria-live="polite" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 18 }}
           style={{ position: 'absolute', right: 16, top: 12, width: 176, background: 'var(--card)', borderRadius: '22px 22px 22px 6px', padding: '13px 14px', boxShadow: '0 2px 0 var(--shadow)', fontSize: 14, lineHeight: 1.38, fontWeight: 500, transformOrigin: '0 100%' }}>
           {bubble}
         </motion.p>
-        <button onClick={() => go('profile')} className="stack" style={{ position: 'absolute', right: 12, top: 170, width: 150, gap: 6, textAlign: 'left' }} aria-label={t(`Рівень ${s.level}. Відкрити профіль`, `Level ${s.level}. Open profile`)}>
+        <button onClick={() => go('profile')} className="stack lvl-box" style={{ position: 'absolute', right: 12, top: 170, width: 150, gap: 6, textAlign: 'left' }} aria-label={t(`Рівень ${s.level}. Відкрити профіль`, `Level ${s.level}. Open profile`)}>
           <div className="row-c" style={{ gap: 8, alignItems: 'baseline' }}>
-            <span className="disp" style={{ fontWeight: 800, fontSize: 40, lineHeight: 1, letterSpacing: -1 }}>{s.level}</span>
+            <span className="disp lvl-num" style={{ fontWeight: 800, fontSize: 40, lineHeight: 1, letterSpacing: -1 }}>{s.level}</span>
             <span style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.2 }}>{t('рівень', 'level')}<br /><span className="muted" style={{ fontSize: 12.5 }}>{t.l(stage.name)}</span></span>
           </div>
           <div className="bar" style={{ height: 12 }}><i style={{ width: pct(s.xp / need(s.level)) }} /></div>
@@ -102,7 +102,7 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
         </button>
       </section>
 
-      <motion.button layoutId="plate-card" className="press" onClick={() => go('food')} aria-label={t('Відкрити записи їжі', 'Open food log')}
+      <motion.button layoutId="plate-card" className="press plate-card" onClick={() => go('food')} aria-label={t('Відкрити записи їжі', 'Open food log')}
         style={{ position: 'relative', margin: '4px 14px 0', width: 'calc(100% - 28px)', background: 'var(--peach)', borderRadius: 30, minHeight: 182, padding: 20, textAlign: 'left', display: 'block' }}>
         <motion.div layoutId="plate" style={{ position: 'absolute', right: -4, top: -30 }}><Plate foods={d.foods} size={152} /></motion.div>
         <div className="stack" style={{ gap: 4, maxWidth: 'calc(100% - 140px)' }}>
@@ -129,7 +129,7 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
       </motion.button>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 10, margin: '10px 14px 0' }}>
-        <div style={{ position: 'relative', borderRadius: 26, minHeight: 164, overflow: 'hidden', padding: 16, background: 'var(--oliveLight)' }}>
+        <div className="water-tile" style={{ position: 'relative', borderRadius: 26, minHeight: 164, overflow: 'hidden', padding: 16, background: 'var(--oliveLight)' }}>
           <Plant water={d.water} goal={p.waterGoal} style={{ position: 'absolute', right: 2, bottom: 0, width: 96, height: 136 }} />
           <div className="stack" style={{ gap: 2, position: 'relative' }}>
             <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--olive)' }}>{t('Вода', 'Water')}</span>
@@ -140,7 +140,7 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
             {d.water > 0 && <button className="press" onClick={() => act(x => addWater(x, -1))} aria-label={t('Прибрати склянку', 'Remove a glass')} style={{ width: 44, height: 44, borderRadius: '50%', boxShadow: 'inset 0 0 0 2px var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="minus" size={20} stroke={2.6} /></button>}
           </div>
         </div>
-        <button className="press stack" onClick={() => go('move')} aria-label={t('Відкрити рух', 'Open movement')} style={{ borderRadius: 26, minHeight: 164, padding: 16, background: 'var(--mustard)', color: '#3B1E3F', justifyContent: 'space-between', textAlign: 'left' }}>
+        <button className="press stack move-tile" onClick={() => go('move')} aria-label={t('Відкрити рух', 'Open movement')} style={{ borderRadius: 26, minHeight: 164, padding: 16, background: 'var(--mustard)', color: '#3B1E3F', justifyContent: 'space-between', textAlign: 'left' }}>
           <div className="stack" style={{ gap: 2 }}>
             <span style={{ fontSize: 13, fontWeight: 600, color: '#6A4300' }}>{t('Рух сьогодні', 'Moving today')}</span>
             <span className="disp" style={{ fontWeight: 700, fontSize: 22 }}>{fmt(d.steps, s.lang)}</span>
@@ -161,7 +161,7 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
           <span className="lbl">{quests.filter(q => d.quests[q.id]).length}/3</span>
         </div>
         {quests.map(q => { const done = !!d.quests[q.id]; return (
-          <div key={q.id} className="row-c card" style={{ gap: 12, minHeight: 58, padding: '0 16px' }}>
+          <div key={q.id} className="row-c card quest" style={{ gap: 12, minHeight: 58, padding: '0 16px' }}>
             <span style={{ width: 28, height: 28, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: done ? 'var(--olive)' : 'transparent', boxShadow: done ? 'none' : 'inset 0 0 0 2.5px var(--ink2)', color: '#FFF8EA' }}>{done && <Icon name="check" size={18} stroke={3} />}</span>
             <span style={{ flex: 1, fontWeight: 600, fontSize: 15, textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.55 : 1 }}>{t.l(q.t)}</span>
             <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--tomato)' }}>+20</span>

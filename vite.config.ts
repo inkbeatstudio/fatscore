@@ -30,8 +30,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
-        globIgnores: ['**/ponyfill-*.js'],
+        globIgnores: ['**/ponyfill-*.js', '**/dela-gothic-*', '**/golos-text-*', '**/alegreya-*', '**/manrope-*'],
         runtimeCaching: [
+          { urlPattern: /(dela-gothic|golos-text|alegreya|manrope).*\.woff2?$/, handler: 'CacheFirst', options: { cacheName: 'style-fonts', expiration: { maxEntries: 40 } } },
           { urlPattern: /zxing_reader\.wasm$|ponyfill-.*\.js$/, handler: 'CacheFirst', options: { cacheName: 'scanner', expiration: { maxEntries: 4 } } }
         ],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,

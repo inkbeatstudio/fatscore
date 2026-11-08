@@ -40,7 +40,7 @@ export function freshState(lang: Lang = 'uk'): State {
       { id: 'h_walk', name: lang === 'en' ? 'Fresh air walk' : 'Прогулянка на свіжому повітрі', icon: 'leaf' },
       { id: 'h_read', name: lang === 'en' ? 'Read 10 pages' : 'Прочитати 10 сторінок', icon: 'book' }
     ],
-    settings: { sound: true, haptics: true, theme: 'system' },
+    settings: { sound: true, haptics: true, theme: 'system', style: 'tactile' },
     gameBest: 0, lastSeen: t, stats: { scans: 0, recipes: 0, distinctFoods: [], games: 0 }
   };
 }

@@ -1,17 +1,37 @@
 @import '@fontsource/unbounded/cyrillic-500.css';
 @import '@fontsource/unbounded/cyrillic-700.css';
 @import '@fontsource/unbounded/cyrillic-800.css';
-@import '@fontsource/unbounded/500.css';
-@import '@fontsource/unbounded/700.css';
-@import '@fontsource/unbounded/800.css';
+@import '@fontsource/unbounded/latin-500.css';
+@import '@fontsource/unbounded/latin-700.css';
+@import '@fontsource/unbounded/latin-800.css';
 @import '@fontsource/onest/cyrillic-400.css';
 @import '@fontsource/onest/cyrillic-500.css';
 @import '@fontsource/onest/cyrillic-600.css';
 @import '@fontsource/onest/cyrillic-700.css';
-@import '@fontsource/onest/400.css';
-@import '@fontsource/onest/500.css';
-@import '@fontsource/onest/600.css';
-@import '@fontsource/onest/700.css';
+@import '@fontsource/onest/latin-400.css';
+@import '@fontsource/onest/latin-500.css';
+@import '@fontsource/onest/latin-600.css';
+@import '@fontsource/onest/latin-700.css';
+@import '@fontsource/dela-gothic-one/cyrillic-400.css';
+@import '@fontsource/dela-gothic-one/latin-400.css';
+@import '@fontsource/golos-text/cyrillic-400.css';
+@import '@fontsource/golos-text/cyrillic-600.css';
+@import '@fontsource/golos-text/cyrillic-700.css';
+@import '@fontsource/golos-text/latin-400.css';
+@import '@fontsource/golos-text/latin-600.css';
+@import '@fontsource/golos-text/latin-700.css';
+@import '@fontsource/alegreya/cyrillic-700.css';
+@import '@fontsource/alegreya/cyrillic-800.css';
+@import '@fontsource/alegreya/cyrillic-500-italic.css';
+@import '@fontsource/alegreya/latin-700.css';
+@import '@fontsource/alegreya/latin-800.css';
+@import '@fontsource/alegreya/latin-500-italic.css';
+@import '@fontsource/manrope/cyrillic-400.css';
+@import '@fontsource/manrope/cyrillic-600.css';
+@import '@fontsource/manrope/cyrillic-700.css';
+@import '@fontsource/manrope/latin-400.css';
+@import '@fontsource/manrope/latin-600.css';
+@import '@fontsource/manrope/latin-700.css';
 
 :root {
   --bg: #FFF1D6; --surface: #FFF8EA; --card: #FFFFFF; --ink: #3B1E3F; --ink2: #6E4C68; --line: rgba(59,30,63,.12);
@@ -20,6 +40,7 @@
   --track: rgba(59,30,63,.14); --shadow: #E9CFA6; --gold: #B97A00; --scrim: rgba(30,12,34,.45);
   --safeB: env(safe-area-inset-bottom, 0px); --safeT: env(safe-area-inset-top, 0px);
   --spring: cubic-bezier(.34,1.56,.64,1);
+  --onAccent: #FFF1D6; --fDisp: 'Unbounded', sans-serif; --fBody: 'Onest', system-ui, sans-serif; --dispTrack: -.02em;
   color-scheme: light;
 }
 html[data-theme='dark'] {
@@ -29,13 +50,44 @@ html[data-theme='dark'] {
   --track: rgba(255,233,201,.16); --shadow: #1C0E20; --gold: #F5C55A; --scrim: rgba(0,0,0,.55);
   color-scheme: dark;
 }
+
+/* ——— Стиль B: спортивна ризографія */
+html[data-style='riso'] {
+  --bg: #E9EFE9; --surface: #F6F9F6; --card: #FFFFFF; --ink: #1D2B53; --ink2: #4A5878; --line: rgba(29,43,83,.14);
+  --tomato: #FF48B0; --tomatoDeep: #0078BF; --mustard: #FFE800; --olive: #0078BF; --oliveDeep: #1D2B53; --oliveLight: #D3E6F2;
+  --peach: #FFD6EA; --peachInk: #A3135F; --blob: #FFF39A; --nav: #1D2B53; --onNav: #CFE0EA; --navActive: #FFE800;
+  --track: rgba(29,43,83,.14); --shadow: #0078BF; --gold: #A67C00; --onAccent: #1D2B53;
+  --fDisp: 'Dela Gothic One', sans-serif; --fBody: 'Golos Text', system-ui, sans-serif; --dispTrack: 0;
+  color-scheme: light;
+}
+html[data-style='riso'][data-theme='dark'] {
+  --bg: #121A36; --surface: #1B2549; --card: #222E58; --ink: #EEF2EA; --ink2: #A9B6D3; --line: rgba(238,242,234,.14);
+  --tomato: #FF5EBC; --tomatoDeep: #2A9BE0; --mustard: #FFE800; --olive: #2A9BE0; --oliveDeep: #0B4F80; --oliveLight: #1E3560;
+  --peach: #3A2150; --peachInk: #FFB3DB; --blob: #2A2F5E; --nav: #0A1028; --onNav: #A9B6D3; --navActive: #FFE800;
+  --track: rgba(238,242,234,.16); --shadow: #FF48B0; --gold: #FFE800; --onAccent: #121A36; color-scheme: dark;
+}
+/* ——— Стиль C: нічна кімната */
+html[data-style='night'] {
+  --bg: #F4ECDD; --surface: #FBF6EC; --card: #FFFFFF; --ink: #23302A; --ink2: #5B6B61; --line: rgba(35,48,42,.13);
+  --tomato: #C4664F; --tomatoDeep: #8A4232; --mustard: #E7A93C; --olive: #3E6B4A; --oliveDeep: #274530; --oliveLight: #DCE7D5;
+  --peach: #EAD9C2; --peachInk: #6B4A2E; --blob: #E1E9D6; --nav: #23302A; --onNav: #C8D6C7; --navActive: #FFC56B;
+  --track: rgba(35,48,42,.13); --shadow: #D9CDB6; --gold: #A06A12; --onAccent: #FFF8EA;
+  --fDisp: 'Alegreya', Georgia, serif; --fBody: 'Manrope', system-ui, sans-serif; --dispTrack: 0;
+  color-scheme: light;
+}
+html[data-style='night'][data-theme='dark'] {
+  --bg: #142420; --surface: #1D3029; --card: #24392F; --ink: #F4E7D2; --ink2: #C8D6C7; --line: rgba(244,231,210,.13);
+  --tomato: #E8907A; --tomatoDeep: #9A4F3E; --mustard: #FFC56B; --olive: #7FAE85; --oliveDeep: #3F6347; --oliveLight: #24392F;
+  --peach: #3A2E26; --peachInk: #FFC56B; --blob: #24392F; --nav: #0F1C19; --onNav: #8FA596; --navActive: #FFC56B;
+  --track: rgba(244,231,210,.14); --shadow: #0F1C19; --gold: #FFC56B; --onAccent: #2A2320; color-scheme: dark;
+}
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Onest', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overscroll-behavior-y: none; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--fBody); -webkit-font-smoothing: antialiased; overscroll-behavior-y: none; }
 body { transition: background-color .3s; min-height: 100dvh; }
 button, input, select, textarea { font-family: inherit; color: inherit; font-size: inherit; }
 button { cursor: pointer; border: 0; background: none; padding: 0; text-align: inherit; }
 h1, h2, h3, p { margin: 0; }
-.disp { font-family: 'Unbounded', sans-serif; letter-spacing: -.02em; }
+.disp { font-family: var(--fDisp); letter-spacing: var(--dispTrack); }
 .muted { color: var(--ink2); }
 .lbl { font-size: 13px; font-weight: 600; color: var(--ink2); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -49,7 +101,7 @@ h1, h2, h3, p { margin: 0; }
 /* натискання: кнопка втискається у власну тінь */
 .press { transition: transform .38s var(--spring), box-shadow .38s var(--spring), background-color .2s; }
 .press:active { transform: translateY(3px) scale(.97); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 22px; border-radius: 999px; font-weight: 700; font-size: 16px; background: var(--tomato); color: #FFF1D6; box-shadow: 0 5px 0 var(--tomatoDeep); text-align: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 22px; border-radius: 999px; font-weight: 700; font-size: 16px; background: var(--tomato); color: var(--onAccent); box-shadow: 0 5px 0 var(--tomatoDeep); text-align: center; }
 .btn:active { box-shadow: 0 1px 0 var(--tomatoDeep); }
 .btn.olive { background: var(--olive); box-shadow: 0 5px 0 var(--oliveDeep); color: #FFF8EA; }
 .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
@@ -76,9 +128,9 @@ select.field { appearance: none; background-image: linear-gradient(45deg, transp
 .seg button.on { background: var(--ink); color: var(--bg); }
 .stepper { display: flex; align-items: center; gap: 10px; }
 .stepper button { width: 48px; height: 48px; border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-size: 22px; font-weight: 700; text-align: center; }
-.stepper .v { flex: 1; text-align: center; font-family: 'Unbounded'; font-weight: 700; font-size: 24px; }
-.sectionT { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -.3px; }
-.h1 { font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -.6px; }
+.stepper .v { flex: 1; text-align: center; font-family: var(--fDisp); font-weight: 700; font-size: 24px; }
+.sectionT { font-family: var(--fDisp); font-weight: 700; font-size: 18px; letter-spacing: -.3px; }
+.h1 { font-family: var(--fDisp); font-weight: 800; font-size: 28px; letter-spacing: -.6px; }
 .switch { width: 52px; height: 32px; border-radius: 99px; background: var(--track); position: relative; flex-shrink: 0; transition: background .3s; }
 .switch i { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.2); transition: left .45s var(--spring); }
 .switch.on { background: var(--olive); }
@@ -107,7 +159,7 @@ svg.char { width: 100%; height: auto; display: block; overflow: visible; }
 nav.tabs { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: 100%; max-width: 480px; height: calc(84px + var(--safeB)); padding: 10px 6px var(--safeB); background: var(--nav); border-radius: 30px 30px 0 0; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); align-items: start; z-index: 20; }
 nav.tabs .t { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--onNav); font-size: 11px; font-weight: 600; min-height: 50px; padding-top: 2px; text-align: center; }
 nav.tabs .t.on { color: var(--navActive); }
-nav.tabs .plus { width: 60px; height: 60px; margin: -30px auto 0; border-radius: 50%; border: 4px solid var(--bg); background: var(--tomato); color: #FFF1D6; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 0 var(--tomatoDeep); }
+nav.tabs .plus { width: 60px; height: 60px; margin: -30px auto 0; border-radius: 50%; border: 4px solid var(--bg); background: var(--tomato); color: var(--onAccent); display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 0 var(--tomatoDeep); }
 
 /* шари */
 .scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 40; }
@@ -117,7 +169,7 @@ nav.tabs .plus { width: 60px; height: 60px; margin: -30px auto 0; border-radius:
 .celebrate { position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; background: rgba(30,12,34,.6); padding: 20px; }
 .celebrate canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .ccard { position: relative; width: min(100%, 360px); background: var(--bg); border-radius: 34px; padding: 22px 22px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.ccard .big { font-family: 'Unbounded'; font-weight: 800; font-size: 60px; line-height: 1; letter-spacing: -2px; }
+.ccard .big { font-family: var(--fDisp); font-weight: 800; font-size: 60px; line-height: 1; letter-spacing: -2px; }
 .opt { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 10px 16px; border-radius: 20px; background: var(--surface); text-align: left; font-weight: 600; font-size: 16px; }
 .opt .ic { width: 40px; height: 40px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .opt.sel { box-shadow: inset 0 0 0 2.5px var(--ink); }
@@ -127,6 +179,37 @@ nav.tabs .plus { width: 60px; height: 60px; margin: -30px auto 0; border-radius:
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
 .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
 .empty { min-height: 80px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px; border-radius: 18px; background: var(--surface); color: var(--ink2); font-weight: 500; line-height: 1.45; }
+
+/* ——— Деталі стилю B: ризографія */
+html[data-style='riso'] body { background-image: radial-gradient(rgba(29,43,83,.08) 1px, transparent 1.3px); background-size: 5px 5px; }
+html[data-style='riso'][data-theme='dark'] body { background-image: radial-gradient(rgba(238,242,234,.07) 1px, transparent 1.3px); }
+html[data-style='riso'] .disp, html[data-style='riso'] .h1, html[data-style='riso'] .sectionT, html[data-style='riso'] .stepper .v, html[data-style='riso'] .ccard .big { font-weight: 400 !important; }
+html[data-style='riso'] svg.char { filter: drop-shadow(5px 4px 0 rgba(255,72,176,.5)); }
+html[data-style='riso'][data-theme='dark'] svg.char { filter: drop-shadow(5px 4px 0 rgba(42,155,224,.6)); }
+html[data-style='riso'] .btn { border-radius: 14px; box-shadow: 4px 5px 0 var(--shadow); }
+html[data-style='riso'] .btn:active { box-shadow: 1px 1px 0 var(--shadow); }
+html[data-style='riso'] .btn.ghost { box-shadow: inset 0 0 0 2.5px var(--ink); }
+html[data-style='riso'] .card, html[data-style='riso'] .row, html[data-style='riso'] .opt, html[data-style='riso'] .empty, html[data-style='riso'] .check { border-radius: 12px; }
+html[data-style='riso'] .quest { border-radius: 10px; border-right: 3px dashed var(--line); background: var(--card); }
+html[data-style='riso'] .lvl-box { top: 128px !important; background: var(--card); padding: 8px 12px 10px; border-radius: 12px; transform: rotate(-3deg); box-shadow: 4px 5px 0 var(--olive); }
+html[data-style='riso'] .lvl-num { color: var(--tomato); font-size: 46px !important; }
+html[data-style='riso'] .bubble { border-radius: 14px !important; box-shadow: 4px 4px 0 var(--tomato) !important; }
+html[data-style='riso'] .plate-card { border-radius: 18px !important; box-shadow: 5px 6px 0 var(--olive); }
+html[data-style='riso'] .water-tile, html[data-style='riso'] .move-tile { border-radius: 16px !important; }
+html[data-style='riso'] nav.tabs { border-radius: 0; }
+html[data-style='riso'] nav.tabs .plus { border-radius: 18px; transform: rotate(-6deg); box-shadow: 4px 5px 0 var(--olive); }
+html[data-style='riso'] .seg, html[data-style='riso'] .seg button, html[data-style='riso'] .chip { border-radius: 10px; }
+html[data-style='riso'] .sheet { border-radius: 18px 18px 0 0; }
+/* ——— Деталі стилю C: нічна кімната */
+html[data-style='night'] body { background-image: radial-gradient(circle at 88% 6%, rgba(231,169,60,.14), transparent 46%); background-attachment: fixed; }
+html[data-style='night'][data-theme='dark'] body { background-image: radial-gradient(circle at 88% 6%, rgba(255,197,107,.20), transparent 48%), radial-gradient(rgba(244,231,210,.5) 1px, transparent 1.5px); background-size: auto, 140px 120px; background-position: 0 0, 30px 40px; }
+html[data-style='night'] .bubble { font-family: var(--fDisp); font-style: italic; font-size: 16px !important; line-height: 1.3 !important; }
+html[data-style='night'] .lvl-num { font-size: 44px !important; }
+html[data-style='night'] .plate-card { box-shadow: inset 0 3px 0 rgba(255,255,255,.08); }
+html[data-style='night'][data-theme='dark'] .plate-card { background: linear-gradient(180deg, #46372C, #33281F) !important; }
+html[data-style='night'] .sectionT, html[data-style='night'] .h1 { letter-spacing: 0; }
+html[data-style='night'] .h1 { font-size: 32px; }
+html[data-style='night'][data-theme='dark'] svg.char { filter: drop-shadow(0 0 22px rgba(255,197,107,.18)); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }

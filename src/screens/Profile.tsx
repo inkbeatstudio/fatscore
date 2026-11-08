@@ -11,6 +11,7 @@ import { addDays, today, parse } from '../logic/dates';
 import { fmt, locale, plural } from '../i18n';
 import { MOODS, MoodFace } from '../components/moods';
 import { HabitEditor } from '../components/HabitEditor';
+import StylePicker from '../components/StylePicker';
 import type { CharId, State } from '../types';
 import type { Tab } from '../App';
 
@@ -71,6 +72,10 @@ export default function Profile({ go }: { go: (t: Tab) => void }) {
 
       <section className="pad stack" style={{ marginTop: 24, gap: 10 }}>
         <h2 className="sectionT">{t('Налаштування', 'Settings')}</h2>
+        <div className="row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10, padding: 14 }}>
+          <span style={{ fontWeight: 600 }}>{t('Стиль оформлення', 'Design style')}</span>
+          <StylePicker />
+        </div>
         <div className="row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10, padding: 14 }}>
           <span style={{ fontWeight: 600 }}>{t('Мова', 'Language')}</span>
           <div className="seg"><button className={s.lang === 'uk' ? 'on' : ''} onClick={() => act(x => { x.lang = 'uk'; })}>Українська</button><button className={s.lang === 'en' ? 'on' : ''} onClick={() => act(x => { x.lang = 'en'; })}>English</button></div>

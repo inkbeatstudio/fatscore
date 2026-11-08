@@ -67,7 +67,7 @@ export default function MiniGame({ close }: { close: () => void }) {
       });
       for (const p of pops) {
         const a = (now - p.t) / 700; if (a > 1) continue;
-        g.globalAlpha = 1 - a; g.fillStyle = '#3B1E3F'; g.font = '800 18px Unbounded, sans-serif'; g.fillText(p.txt, p.x - 10, p.y - a * 30); g.globalAlpha = 1;
+        g.globalAlpha = 1 - a; g.fillStyle = '#3B1E3F'; g.font = `800 18px ${getComputedStyle(document.documentElement).getPropertyValue('--fDisp')}`; g.fillText(p.txt, p.x - 10, p.y - a * 30); g.globalAlpha = 1;
       }
       if (remain <= 0 && !items.length) {
         setPhase('done');

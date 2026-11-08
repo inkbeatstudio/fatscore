@@ -22,13 +22,15 @@ function useTheme() {
     const mq = matchMedia('(prefers-color-scheme: dark)');
     const apply = () => {
       const dark = s.settings.theme === 'dark' || (s.settings.theme === 'system' && mq.matches);
-      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-      document.querySelector('meta[name=theme-color]')?.setAttribute('content', dark ? '#2A1630' : '#FFF1D6');
+      const root = document.documentElement;
+      root.dataset.theme = dark ? 'dark' : 'light';
+      root.dataset.style = s.settings.style;
+      document.querySelector('meta[name=theme-color]')?.setAttribute('content', getComputedStyle(root).getPropertyValue('--bg').trim() || (dark ? '#2A1630' : '#FFF1D6'));
     };
     apply();
     mq.addEventListener?.('change', apply);
     return () => mq.removeEventListener?.('change', apply);
-  }, [s.settings.theme]);
+  }, [s.settings.theme, s.settings.style]);
   useEffect(() => { document.documentElement.lang = s.lang; }, [s.lang]);
 }
 

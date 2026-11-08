@@ -7,6 +7,7 @@ export type Slot = 'head' | 'neck' | 'face' | 'bg';
 export type Cat = 'veg' | 'fruit' | 'protein' | 'grain' | 'dairy' | 'sweet' | 'fat' | 'drink';
 export type MealKey = 'b' | 'l' | 'd' | 's';
 export type Theme = 'light' | 'dark' | 'system';
+export type Style = 'tactile' | 'riso' | 'night';
 
 /** Продукт або страва. Поживність на 100 г. */
 export interface Food {
@@ -96,6 +97,7 @@ export interface Settings {
   sound: boolean;
   haptics: boolean;
   theme: Theme;
+  style: Style;
 }
 
 export interface State {
