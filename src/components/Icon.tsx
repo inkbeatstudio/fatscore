@@ -1,5 +1,5 @@
 // Власний набір іконок в одному стилі: обведення 2.2, заокруглені кінці, сітка 26×26
-const P: Record<string, string> = {
+export const ICON_PATHS: Record<string, string> = {
   home: '<path d="M4 12.5 13 5l9 7.5"/><path d="M6.5 11v9.5h13V11"/><path d="M11 20.5v-5h4v5"/>',
   food: '<circle cx="13" cy="14" r="8"/><circle cx="13" cy="14" r="4"/><path d="M4 4v5M2.5 4v3.5a1.5 1.5 0 0 0 3 0V4"/>',
   move: '<path d="M3 17.5c3 0 4-1 6-4l2-3 3 2.5c1.5 1.2 3 1.5 5 1.5h2.5a1.5 1.5 0 0 1 1.5 1.5v2H3z"/><path d="M8 21h15"/>',
@@ -46,7 +46,10 @@ const P: Record<string, string> = {
   plate: '<circle cx="13" cy="13" r="9"/><circle cx="13" cy="13" r="5"/>',
   map: '<path d="M3 6l6-2 8 3 6-2v15l-6 2-8-3-6 2z"/><path d="M9 4v15M17 7v15"/>',
   bell: '<path d="M6 18V12a7 7 0 0 1 14 0v6l2 2H4zM10 21a3 3 0 0 0 6 0"/>',
-  info: '<circle cx="13" cy="13" r="9"/><path d="M13 12v6M13 8.5h.01"/>'
+  info: '<circle cx="13" cy="13" r="9"/><path d="M13 12v6M13 8.5h.01"/>',
+  mic: '<rect x="9.5" y="3.5" width="7" height="12" rx="3.5"/><path d="M6 12.5a7 7 0 0 0 14 0M13 19.5v3"/>',
+  copy: '<rect x="9" y="9" width="12" height="12" rx="3"/><path d="M17 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+  file: '<path d="M7 3.5h8l5 5v13a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 6 21.5v-16A2 2 0 0 1 7 3.5z"/><path d="M15 3.5V9h5M9.5 14h7M9.5 18h5"/>'
 };
 
 export const ICON_CHOICES = ['leaf', 'book', 'pill', 'sun', 'brain', 'tooth', 'heart', 'star', 'moon', 'drop', 'steps', 'pot'];
@@ -54,7 +57,7 @@ export const ICON_CHOICES = ['leaf', 'book', 'pill', 'sun', 'brain', 'tooth', 'h
 export function Icon({ name, size = 26, stroke = 2.2, className, style }: { name: string; size?: number; stroke?: number; className?: string; style?: React.CSSProperties }) {
   return (
     <svg width={size} height={size} viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round"
-      aria-hidden="true" className={className} style={style} dangerouslySetInnerHTML={{ __html: P[name] || P.star }} />
+      aria-hidden="true" className={className} style={style} dangerouslySetInnerHTML={{ __html: ICON_PATHS[name] || ICON_PATHS.star }} />
   );
 }
 

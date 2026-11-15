@@ -7,6 +7,8 @@ import { Character, ItemThumb } from './art';
 import { Coin, Icon } from './Icon';
 import { chime, haptic } from '../services/feedback';
 import { stageOf } from '../logic/game';
+import { Badge } from './Badge';
+import { findAch } from '../data/achievements';
 
 export function useT() {
   const s = useApp();
@@ -116,16 +118,19 @@ export function FxLayer() {
             <Confetti />
             <motion.div className="ccard" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 14 }}>
               {cur.kind === 'level' && <>
-                <div style={{ width: 170, marginBottom: -6 }}><Character char={s.profile.char} eq={s.eq} stage={stageOf(s.level).index} exercise /></div>
+                <div style={{ width: 170, marginBottom: -6 }}><Character char={cur.char || s.profile.char} eq={s.eq} stage={stageOf(s.chars[cur.char || s.profile.char]?.lv || 1).index} exercise /></div>
                 <div className="big">{cur.big}</div>
               </>}
+              {cur.kind === 'hero' && cur.char && <div style={{ width: 180, marginBottom: -4 }}><Character char={cur.char} stage={1} exercise /></div>}
               {cur.kind === 'record' && <>
                 <div style={{ width: 96, height: 96, borderRadius: 32, background: 'var(--mustard)', color: '#3B1E3F', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="trophy" size={56} stroke={2} /></div>
                 <div className="big" style={{ fontSize: 42 }}>{cur.big}</div>
               </>}
               {cur.kind === 'item' && cur.item && <div style={{ width: 210, padding: 14, borderRadius: 28, background: 'var(--surface)' }}><ItemThumb id={cur.item} style={{ height: 110 }} /></div>}
               {cur.kind === 'city' && <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'var(--mustard)', color: '#3B1E3F', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="map" size={50} stroke={2} /></div>}
-              {(cur.kind === 'ach' || cur.kind === 'streak') && <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'var(--olive)', color: '#FFF8EA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name={cur.kind === 'streak' ? 'flame' : 'star'} size={52} stroke={2.4} /></div>}
+              {cur.kind === 'season' && <><div style={{ width: 96, height: 96, borderRadius: 30, background: 'var(--olive)', color: '#FFF8EA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="star" size={52} stroke={2.4} /></div><div className="big" style={{ fontSize: 44 }}>{cur.big}</div></>}
+              {cur.kind === 'ach' && (() => { const a = cur.ach ? findAch(cur.ach) : undefined; return a ? <Badge a={a} earned size={130} /> : <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'var(--olive)', color: '#FFF8EA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="star" size={52} stroke={2.4} /></div>; })()}
+              {cur.kind === 'streak' && <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'var(--olive)', color: '#FFF8EA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="flame" size={52} stroke={2.4} /></div>}
               <h2 className="disp" style={{ fontSize: 21, fontWeight: 700, lineHeight: 1.2 }}>{cur.title}</h2>
               {cur.text && <p className="muted" style={{ fontSize: 15, lineHeight: 1.45 }}>{cur.text}</p>}
               <button className="btn block press" style={{ marginTop: 6 }} onClick={close} autoFocus>{t('Чудово', 'Awesome')}</button>

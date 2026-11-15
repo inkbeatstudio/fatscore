@@ -72,4 +72,79 @@ export const CHARS: Record<CharId, CharDef> = {
       steps: { uk: ['Кроки. Багато кроків. Я втомився за тебе.', 'Ти ходиш, а я мандрую в твоїй кишені.'], en: ['Steps. So many steps. I\'m tired for you.', 'You walk, I travel in your pocket.'] }
     }
   }
+  ,
+  fox: {
+    name: { uk: 'Лиска', en: 'Rusty' }, kind: { uk: 'лисиця', en: 'fox' },
+    vibe: { uk: 'Мандрівниця. Кожен кілометр для неї — нова пригода і сувенір.', en: 'A traveller. Every kilometre is a new adventure and a souvenir.' },
+    fur: ['#FFB070', '#EC7A34', '#BC531E'], belly: ['#FFFFFF', '#F6E6D8'], feet: '#5A3324', ear: '#3E2A2A',
+    lines: {
+      hello: { uk: ['Мапа готова. Куди сьогодні?', 'Привіт! Я вже спакувала рюкзак.'], en: ['Map\'s ready. Where to today?', 'Hi! My backpack is packed.'] },
+      empty: { uk: ['Перед дорогою треба підкріпитись. Що на тарілці?', 'Почнімо зі склянки води — і в путь.'], en: ['A traveller needs fuel. What\'s on the plate?', 'A glass of water, then off we go.'] },
+      meal: { uk: ['Записала! Смачне в дорогу.', 'О, це я б узяла в похід.'], en: ['Logged! Tasty travel food.', 'Ooh, I\'d pack that for a hike.'] },
+      water: { uk: ['Фляга поповнена!', 'Ковток — і далі мандруємо.'], en: ['Flask refilled!', 'A sip and we travel on.'] },
+      workout: { uk: ['Ми щойно пройшли маленьку експедицію.', 'Ноги мандрівника міцнішають!'], en: ['We just finished a little expedition.', 'Traveller legs getting stronger!'] },
+      rest: { uk: ['Привал. Найкраща частина будь-якої подорожі.', 'Сидимо біля вогнища, відпочиваємо.'], en: ['A rest stop. Best part of any trip.', 'Sitting by the campfire, resting.'] },
+      tap: { uk: ['Хвостом махаю — значить, рада!', 'Я чую запах пригод.', 'Покажу тобі сувеніри?'], en: ['Tail wagging means happy!', 'I can smell adventure.', 'Want to see my souvenirs?'] },
+      sleep: { uk: ['Добре виспалась — далі буде легше йти.', 'Сон у наметі записано.'], en: ['A good sleep makes the road easier.', 'Tent sleep logged.'] },
+      mood: { uk: ['Дякую. Настрій — як погода в дорозі, змінюється.', 'Записала у свій дорожній щоденник.'], en: ['Thanks. Mood is like road weather, it changes.', 'Noted in my travel journal.'] },
+      habit: { uk: ['Ще одна позначка на мапі звичок.', 'Крок за кроком!'], en: ['Another pin on the habit map.', 'Step by step!'] },
+      back: { uk: ['Ти повернувся з мандрів! Розповідай.', 'Дорога завжди чекає. Продовжуємо?'], en: ['Back from your travels! Tell me everything.', 'The road always waits. Shall we?'] },
+      night: { uk: ['Зорі ведуть мандрівників... і в ліжко теж.', 'Хр-р... снився Париж.'], en: ['Stars guide travellers... to bed too.', 'Zzz... dreaming of Paris.'] },
+      record: { uk: ['Рекорд! Це варте листівки додому.', 'Нова вершина підкорена!'], en: ['A record! Worth a postcard home.', 'New peak conquered!'] },
+      steps: { uk: ['Кроки — це квитки в нові міста.', 'Ще трохи, і буде новий сувенір!'], en: ['Steps are tickets to new cities.', 'A bit more and there\'s a new souvenir!'] }
+    }
+  },
+  cat: {
+    name: { uk: 'Мурчик', en: 'Purr' }, kind: { uk: 'кіт-кухар', en: 'chef cat' },
+    vibe: { uk: 'Кухар. Радіє різноманітній їжі й підказує нові смаки.', en: 'A chef. Loves food variety and new flavours.' },
+    fur: ['#F9D29B', '#E6A75E', '#BD7D38'], belly: ['#FFF6EA', '#F2DEC4'], feet: '#C48A48', ear: '#F4A7A0',
+    lines: {
+      hello: { uk: ['Мур! Сьогодні готуємо щось різнокольорове?', 'Кухня відкрита!'], en: ['Purr! Something colourful today?', 'The kitchen is open!'] },
+      empty: { uk: ['Тарілка чекає на перший колір дня.', 'Що в нас у холодильнику?'], en: ['The plate is waiting for its first colour.', 'What\'s in the fridge?'] },
+      meal: { uk: ['Мур-р, смакота! Додаю на тарілку.', 'Шеф схвалює!', 'Ще один колір — і буде шедевр.'], en: ['Purr, delicious! Onto the plate.', 'Chef approves!', 'One more colour and it\'s a masterpiece.'] },
+      water: { uk: ['Вода — найкращий соус до всього.', 'Хлюп! Свіжо.'], en: ['Water goes with everything.', 'Splash! Refreshing.'] },
+      workout: { uk: ['Після тренування смакує вдвічі краще!', 'Ти молодець, а я вже ставлю чайник.'], en: ['Food tastes twice as good after training!', 'Well done, I\'m putting the kettle on.'] },
+      rest: { uk: ['Відпочинок — як тісто: йому треба настоятись.', 'Мур-р... дрімаємо.'], en: ['Rest is like dough: it needs time.', 'Purr... napping.'] },
+      tap: { uk: ['Мур-р-р.', 'Обережно, вуса!', 'Може, спробуємо новий рецепт?'], en: ['Purrrr.', 'Careful, whiskers!', 'Shall we try a new recipe?'] },
+      sleep: { uk: ['Котячий сон — найкращий сон.', 'Записав. Подушка тепла.'], en: ['Cat naps are the best naps.', 'Noted. The pillow is warm.'] },
+      mood: { uk: ['Дякую. Будь-який настрій можна присмачити добрим словом.', 'Мур, я поруч.'], en: ['Thanks. Any mood is better with a kind word.', 'Purr, I\'m here.'] },
+      habit: { uk: ['Звичка виконана — як рецепт за всіма кроками.', 'Шеф ставить зірочку!'], en: ['Habit done — like following a recipe.', 'Chef gives a star!'] },
+      back: { uk: ['Мур! Я зберіг для тебе місце на кухні.', 'Повернувся? Чудово, продовжуємо готувати.'], en: ['Purr! I saved you a spot in the kitchen.', 'You\'re back? Great, let\'s keep cooking.'] },
+      night: { uk: ['Кухня зачинена до ранку. Мур-р...', 'Хр-р... снився сирник.'], en: ['Kitchen closed till morning. Purr...', 'Zzz... dreaming of pancakes.'] },
+      record: { uk: ['Рекорд! Пеку святковий пиріг.', 'Оце сила! Мур-р!'], en: ['A record! Baking a celebration pie.', 'What strength! Purr!'] },
+      steps: { uk: ['Прогулянка — найкращий апетит.', 'Кроки записано, мур.'], en: ['A walk builds the best appetite.', 'Steps logged, purr.'] }
+    }
+  },
+  owl: {
+    name: { uk: 'Софа', en: 'Sophie' }, kind: { uk: 'сова', en: 'owl' },
+    vibe: { uk: 'Розумниця. Пояснює «чому»: про білок, сон і відновлення.', en: 'The clever one. Explains the «why»: protein, sleep, recovery.' },
+    fur: ['#A9C0D6', '#7591B0', '#536F8E'], belly: ['#EAF1F7', '#CFDDEA'], feet: '#E8A33C', ear: '#536F8E',
+    lines: {
+      hello: { uk: ['Ху-ху! Знаєш, що вода допомагає концентрації?', 'Привіт! Сьогодні дізнаємось щось нове.'], en: ['Hoo-hoo! Did you know water helps focus?', 'Hi! Let\'s learn something new today.'] },
+      empty: { uk: ['Сніданок дає енергію мозку. Запишемо?', 'Почнемо з води: навіть легке зневоднення втомлює.'], en: ['Breakfast fuels the brain. Log it?', 'Start with water: even mild dehydration tires you.'] },
+      meal: { uk: ['Записала. Різні кольори — різні вітаміни.', 'Білок допомагає м\'язам відновлюватись.'], en: ['Logged. Different colours, different vitamins.', 'Protein helps muscles recover.'] },
+      water: { uk: ['Вода бере участь майже в усіх процесах тіла.', 'Ху! Мозок дякує.'], en: ['Water is part of nearly every body process.', 'Hoo! Your brain says thanks.'] },
+      workout: { uk: ['Рух покращує сон і настрій — це доведено.', 'Чудово! М\'язи ростуть під час відпочинку після тренування.'], en: ['Movement improves sleep and mood — proven.', 'Great! Muscles grow while resting after training.'] },
+      rest: { uk: ['Відновлення — частина тренування, а не перерва від нього.', 'Мудре рішення.'], en: ['Recovery is part of training, not a break from it.', 'A wise choice.'] },
+      tap: { uk: ['Ху-ху?', 'Я повертаю голову майже на 270°. Не пробуй.', 'Питай, що цікаво!'], en: ['Hoo-hoo?', 'I can turn my head almost 270°. Don\'t try it.', 'Ask me anything!'] },
+      sleep: { uk: ['Дорослим зазвичай потрібно 7–9 годин сну.', 'Сон допомагає пам\'яті. Записала.'], en: ['Adults usually need 7–9 hours of sleep.', 'Sleep helps memory. Logged.'] },
+      mood: { uk: ['Спостереження за настроєм допомагає помітити закономірності.', 'Дякую, записала.'], en: ['Tracking mood helps spot patterns.', 'Thanks, noted.'] },
+      habit: { uk: ['Звички формуються повторенням. Ще одне є!', 'Ху! Мозок любить постійність.'], en: ['Habits form through repetition. One more!', 'Hoo! The brain loves consistency.'] },
+      back: { uk: ['З поверненням! Перерви — це нормально, головне продовжувати.', 'Ху-ху, я чекала.'], en: ['Welcome back! Breaks are normal, keep going.', 'Hoo-hoo, I was waiting.'] },
+      night: { uk: ['Я нічна птаха, а тобі краще спати. Сон важливий!', 'Синє світло екрана заважає засинати. На добраніч!'], en: ['I\'m a night owl, but you should sleep. Sleep matters!', 'Screen light makes falling asleep harder. Good night!'] },
+      record: { uk: ['Рекорд! Прогресивне навантаження працює.', 'Ху! Науково підтверджена перемога.'], en: ['A record! Progressive overload works.', 'Hoo! A scientifically confirmed win.'] },
+      steps: { uk: ['Ходьба — одна з найкорисніших активностей.', 'Кроки записано. Серце дякує.'], en: ['Walking is one of the healthiest activities.', 'Steps logged. Your heart thanks you.'] }
+    }
+  }
 };
+
+/** Як відкрити героя: за досягненням або за зірки */
+export const UNLOCK: Record<CharId, { ach: string; stars: number }> = {
+  bear: { ach: 'water_2', stars: 12 },
+  hare: { ach: 'workouts_2', stars: 12 },
+  raccoon: { ach: 'streak_2', stars: 12 },
+  fox: { ach: 'cities_1', stars: 18 },
+  cat: { ach: 'recipes_1', stars: 18 },
+  owl: { ach: 'sleep_1', stars: 18 }
+};
+export const CHAR_IDS: CharId[] = ['bear', 'hare', 'raccoon', 'fox', 'cat', 'owl'];

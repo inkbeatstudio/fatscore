@@ -1,10 +1,10 @@
 import { getState } from '../store';
 
 let ctx: AudioContext | null = null;
-type Kind = 'level' | 'record' | 'item' | 'ach' | 'city' | 'streak' | 'coin' | 'tap';
+type Kind = 'level' | 'record' | 'item' | 'ach' | 'city' | 'streak' | 'coin' | 'tap' | 'hero' | 'season';
 const NOTES: Record<Kind, number[]> = {
   level: [523, 659, 784, 1047], record: [392, 523, 659, 784, 659, 1047], item: [659, 880, 1175], ach: [587, 740, 880],
-  city: [440, 554, 659, 880], streak: [523, 784, 1047], coin: [988, 1319], tap: [660]
+  city: [440, 554, 659, 880], streak: [523, 784, 1047], coin: [988, 1319], tap: [660], hero: [523, 659, 784, 1047, 1319], season: [440, 659, 880, 1175]
 };
 /** Короткі мелодії синтезуються на льоту, файли не потрібні */
 export function chime(kind: Kind) {

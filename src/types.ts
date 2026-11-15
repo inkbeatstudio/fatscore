@@ -2,7 +2,9 @@ export type Lang = 'uk' | 'en';
 export type L10n = { uk: string; en: string };
 export type Sex = 'f' | 'm';
 export type Goal = 'lose' | 'keep' | 'gain' | 'habits';
-export type CharId = 'bear' | 'hare' | 'raccoon';
+export type CharId = 'bear' | 'hare' | 'raccoon' | 'fox' | 'cat' | 'owl';
+export type WidgetId = 'hero' | 'plate' | 'water' | 'move' | 'quests' | 'weekly' | 'streak' | 'sleep' | 'mood' | 'habits' | 'journey' | 'game' | 'weight' | 'diary' | 'season';
+export type SeasonKind = 'winter' | 'spring' | 'summer' | 'autumn';
 export type Slot = 'head' | 'neck' | 'face' | 'bg';
 export type Cat = 'veg' | 'fruit' | 'protein' | 'grain' | 'dairy' | 'sweet' | 'fat' | 'drink';
 export type MealKey = 'b' | 'l' | 'd' | 's';
@@ -45,6 +47,8 @@ export interface Workout {
   kcal: number;
   km?: number;
   at: number;
+  source?: 'manual' | 'gps' | 'gpx';
+  route?: [number, number][];
 }
 
 export interface Sleep {
@@ -69,6 +73,10 @@ export interface Day {
   rewards: Record<string, number>; // лічильники винагород за день, щоб не було «фарму»
   gamePlays: number;
   demo?: boolean;
+  note?: string;
+  photo?: string;
+  /** id м'яких нагадувань, які на цей день сховано */
+  dismissed?: string[];
 }
 
 export interface Habit {
@@ -98,6 +106,11 @@ export interface Settings {
   haptics: boolean;
   theme: Theme;
   style: Style;
+  calm: boolean;
+  /** М'які нагадування на головній */
+  nudges: boolean;
+  /** Графік ваги в трендах (вимкнено за замовчуванням) */
+  weightChart: boolean;
 }
 
 export interface State {
@@ -122,12 +135,20 @@ export interface State {
   settings: Settings;
   gameBest: number;
   lastSeen: string;
-  stats: { scans: number; recipes: number; distinctFoods: string[]; games: number };
+  stats: { scans: number; recipes: number; distinctFoods: string[]; games: number; dailyQ: number; weeklyQ: number; records: number; gps: number; bestStreak: number };
+  /** Колекція героїв: у кожного свій рівень і досвід */
+  chars: Record<CharId, { own: boolean; lv: number; xp: number }>;
+  heroNames?: Partial<Record<CharId, string>>;
+  stars: number;
+  home: WidgetId[];
+  weekly: Record<string, Record<string, 1>>;
+  season: Record<string, { pts: number; tier: number; daily: number; weekly: number }>;
+  friendCode: string;
 }
 
 export type Effect =
   | { type: 'toast'; text: string; icon?: string }
-  | { type: 'celebrate'; kind: 'level' | 'record' | 'item' | 'ach' | 'city' | 'streak'; title: string; text?: string; big?: string; item?: string }
+  | { type: 'celebrate'; kind: 'level' | 'record' | 'item' | 'ach' | 'city' | 'streak' | 'hero' | 'season'; title: string; text?: string; big?: string; item?: string; char?: CharId; ach?: string }
   | { type: 'react'; kind: string; text?: string }
   | { type: 'sound'; kind: 'coin' | 'tap' }
   | { type: 'haptic'; pattern: number | number[] };

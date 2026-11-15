@@ -1,20 +1,21 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { LayoutGroup, MotionConfig, motion } from 'motion/react';
-import { useApp, storageWorks } from './store';
+import { useApp, storageWorks, act } from './store';
 import { FxLayer, SheetHost, useT, openSheet, closeSheet } from './components/ui';
 import { Icon } from './components/Icon';
 import Onboarding from './screens/Onboarding';
 import Home from './screens/Home';
-import FoodScreen from './screens/Food';
-import Move from './screens/Move';
-import Wardrobe from './screens/Wardrobe';
-import { act } from './store';
+import { go, useNav, type Route, type TabId } from './nav';
 import { addWater, setRest } from './logic/game';
 
+const Diary = lazy(() => import('./screens/Diary'));
+const Adventure = lazy(() => import('./screens/Adventure'));
+const Heroes = lazy(() => import('./screens/Heroes'));
+const FoodScreen = lazy(() => import('./screens/Food'));
+const Move = lazy(() => import('./screens/Move'));
+const Track = lazy(() => import('./screens/Track'));
 const Profile = lazy(() => import('./screens/Profile'));
-
-export type Tab = 'home' | 'food' | 'move' | 'ward' | 'profile';
-const TABS: Tab[] = ['home', 'food', 'move', 'ward', 'profile'];
+const Friends = lazy(() => import('./screens/Friends'));
 
 function useTheme() {
   const s = useApp();
@@ -60,42 +61,44 @@ function useAliveCharacters() {
   }, []);
 }
 
-function readHash(): Tab { const h = location.hash.slice(1) as Tab; return TABS.includes(h) ? h : 'home'; }
+export function openQuick(t: ReturnType<typeof useT>) {
+  const tile = (icon: string, uk: string, en: string, bg: string, fg: string, onClick: () => void) => (
+    <button className="press stack" onClick={() => { closeSheet(); setTimeout(onClick, 60); }}
+      style={{ gap: 10, padding: 14, borderRadius: 22, background: 'var(--surface)', textAlign: 'left', minHeight: 104 }}>
+      <span style={{ width: 44, height: 44, borderRadius: 15, background: bg, color: fg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name={icon} size={24} /></span>
+      <span style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>{t(uk, en)}</span>
+    </button>
+  );
+  openSheet(() => (
+    <div className="stack" style={{ gap: 12 }}>
+      <h2 className="disp" style={{ fontSize: 20, fontWeight: 700 }}>{t('Що записуємо?', 'What are we logging?')}</h2>
+      <div className="grid2">
+        {tile('food', 'Їжу', 'Food', 'var(--peach)', 'var(--peachInk)', () => go('food'))}
+        {tile('edit', 'Їжу повідомленням', 'Food as a message', 'var(--peach)', 'var(--peachInk)', () => { go('food'); setTimeout(() => dispatchEvent(new Event('fatscore:chat')), 350); })}
+        {tile('barcode', 'Сканувати штрихкод', 'Scan a barcode', 'var(--peach)', 'var(--peachInk)', () => { go('food'); setTimeout(() => dispatchEvent(new Event('fatscore:scan')), 350); })}
+        {tile('drop', 'Склянку води', 'A glass of water', 'var(--oliveLight)', 'var(--olive)', () => act(st => addWater(st, 1)))}
+        {tile('dumbbell', 'Тренування', 'Workout', 'var(--mustard)', '#3B1E3F', () => go('move'))}
+        {tile('map', 'Прогулянку з GPS', 'GPS walk', 'var(--mustard)', '#3B1E3F', () => go('track'))}
+        {tile('book', 'Запис у щоденник', 'Diary entry', 'var(--oliveLight)', 'var(--ink)', () => go('diary'))}
+        {tile('rest', 'День відпочинку', 'Rest day', 'var(--oliveLight)', 'var(--ink)', () => act(st => setRest(st)))}
+      </div>
+    </div>
+  ));
+}
 
 export default function App() {
   const s = useApp();
   const t = useT();
-  const [tab, setTabState] = useState<Tab>(readHash);
+  const nav = useNav();
   useTheme();
   useAliveCharacters();
-  useEffect(() => {
-    const on = () => setTabState(readHash());
-    addEventListener('hashchange', on);
-    return () => removeEventListener('hashchange', on);
-  }, []);
-  const setTab = (x: Tab) => {
-    if (x === tab) { scrollTo({ top: 0, behavior: 'smooth' }); return; }
-    closeSheet();
-    scrollTo(0, 0);
-    history.replaceState(null, '', x === 'home' ? location.pathname + location.search : '#' + x);
-    setTabState(x);
-  };
 
   if (s.onb < 99) return <MotionConfig reducedMotion="user"><Onboarding /><SheetHost /><FxLayer /></MotionConfig>;
 
-  const quick = () => openSheet(close => (
-    <div className="stack" style={{ gap: 10 }}>
-      <h2 className="disp" style={{ fontSize: 20, fontWeight: 700, marginBottom: 4 }}>{t('Що записуємо?', 'What are we logging?')}</h2>
-      <button className="opt press" onClick={() => { close(); setTab('food'); }}><span className="ic" style={{ background: 'var(--peach)', color: 'var(--peachInk)' }}><Icon name="food" size={24} /></span>{t('Їжу', 'Food')}</button>
-      <button className="opt press" onClick={() => { close(); setTab('food'); setTimeout(() => window.dispatchEvent(new Event('fatscore:scan')), 350); }}><span className="ic" style={{ background: 'var(--peach)', color: 'var(--peachInk)' }}><Icon name="barcode" size={24} /></span>{t('Сканувати штрихкод', 'Scan a barcode')}</button>
-      <button className="opt press" onClick={() => { close(); act(st => addWater(st, 1)); }}><span className="ic" style={{ background: 'var(--oliveLight)', color: 'var(--olive)' }}><Icon name="drop" size={24} /></span>{t('Склянку води', 'A glass of water')}</button>
-      <button className="opt press" onClick={() => { close(); setTab('move'); }}><span className="ic" style={{ background: 'var(--mustard)', color: '#3B1E3F' }}><Icon name="dumbbell" size={24} /></span>{t('Тренування або кроки', 'Workout or steps')}</button>
-      <button className="opt press" onClick={() => { close(); act(st => setRest(st)); }}><span className="ic" style={{ background: 'var(--surface)', boxShadow: 'inset 0 0 0 2px var(--line)' }}><Icon name="rest" size={24} /></span>{t('День відпочинку', 'Rest day')}</button>
-    </div>
-  ));
-
-  const tb = (id: Tab, uk: string, en: string, icon: string) => (
-    <button className={'t press' + (tab === id ? ' on' : '')} onClick={() => setTab(id)} aria-current={tab === id ? 'page' : undefined}>
+  const r = nav.route;
+  const activeTab: TabId | null = (['home', 'diary', 'adventure', 'heroes'] as Route[]).includes(r) ? (r as TabId) : null;
+  const tb = (id: TabId, uk: string, en: string, icon: string) => (
+    <button className={'t press' + (activeTab === id ? ' on' : '')} onClick={() => (activeTab === id ? scrollTo({ top: 0, behavior: 'smooth' }) : go(id))} aria-current={activeTab === id ? 'page' : undefined}>
       <Icon name={icon} />{t(uk, en)}
     </button>
   );
@@ -103,21 +106,27 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <LayoutGroup>
-        <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 380, damping: 34 }}>
-          {!storageWorks() && <p className="pad" role="alert" style={{ background: 'var(--tomato)', color: '#FFF1D6', padding: '10px 20px', fontSize: 13, fontWeight: 600 }}>{t('Браузер не дає зберігати дані (можливо, приватний режим). Записи зникнуть після закриття.', 'Your browser blocks storage (private mode?). Entries will be lost when you close it.')}</p>}
-          {tab === 'home' && <Home go={setTab} />}
-          {tab === 'food' && <FoodScreen />}
-          {tab === 'move' && <Move />}
-          {tab === 'ward' && <Wardrobe />}
-          {tab === 'profile' && <Suspense fallback={<div className="screen" />}><Profile go={setTab} /></Suspense>}
+        <motion.div key={r} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 380, damping: 34 }}>
+          {!storageWorks() && <p className="pad" role="alert" style={{ background: 'var(--tomato)', color: 'var(--onAccent)', padding: '10px 20px', fontSize: 13, fontWeight: 600 }}>{t('Браузер не дає зберігати дані (можливо, приватний режим). Записи зникнуть після закриття.', 'Your browser blocks storage (private mode?). Entries will be lost when you close it.')}</p>}
+          <Suspense fallback={<div className="screen" />}>
+            {r === 'home' && <Home />}
+            {r === 'diary' && <Diary />}
+            {r === 'adventure' && <Adventure />}
+            {r === 'heroes' && <Heroes />}
+            {r === 'food' && <FoodScreen date={nav.params.date} />}
+            {r === 'move' && <Move />}
+            {r === 'track' && <Track />}
+            {r === 'profile' && <Profile />}
+            {r === 'friends' && <Friends />}
+          </Suspense>
         </motion.div>
       </LayoutGroup>
       <nav className="tabs" aria-label={t('Головне меню', 'Main menu')}>
-        {tb('home', 'Дім', 'Home', 'home')}
-        {tb('food', 'Їжа', 'Food', 'food')}
-        <div><button className="plus press" onClick={quick} aria-label={t('Швидкий запис', 'Quick log')}><Icon name="plus" size={26} stroke={3.2} /></button></div>
-        {tb('move', 'Рух', 'Move', 'move')}
-        {tb('ward', 'Гардероб', 'Wardrobe', 'wardrobe')}
+        {tb('home', 'Головна', 'Home', 'home')}
+        {tb('diary', 'Щоденник', 'Diary', 'book')}
+        <div><button className="plus press" onClick={() => openQuick(t)} aria-label={t('Швидкий запис', 'Quick log')}><Icon name="plus" size={26} stroke={3.2} /></button></div>
+        {tb('adventure', 'Пригоди', 'Quests', 'star')}
+        {tb('heroes', 'Герої', 'Heroes', 'heart')}
       </nav>
       <SheetHost />
       <FxLayer />

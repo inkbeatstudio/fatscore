@@ -169,13 +169,14 @@ export default function Onboarding() {
       const mk = (fid: string, g: number, meal: MealKey) => ({ id: uid('f'), food: FOOD_BY_ID[fid], g, meal, at: Date.now() - 86400000 });
       st.days[y] = { ...newDay(y), demo: true, water: 6, foods: [mk('oat_milk', 250, 'b'), mk('banana', 120, 'b'), mk('coffee_milk', 250, 'b'), mk('borsch', 300, 'l'), mk('bread_rye', 60, 'l'), mk('chicken', 150, 'd'), mk('buckwheat', 180, 'd'), mk('salad_ct', 200, 'd')] };
     }
+    st.chars[st.profile.char].own = true;
     st.onb = 99;
   });
 
   return wrap(<>
     {dots}{h1(t('Хто буде поруч?', 'Who\'ll keep you company?'))}
     <div className="chips" style={{ margin: '0 -22px', padding: '6px 22px 14px', gap: 12, scrollSnapType: 'x mandatory' }}>
-      {(Object.keys(CHARS) as CharId[]).map(k => {
+      {(['bear', 'hare', 'raccoon'] as CharId[]).map(k => {
         const c = CHARS[k], sel = p.char === k;
         return (
           <button key={k} className="press stack" aria-pressed={sel} onClick={() => { set(st => { st.profile.char = k; }); if (!names.cname || Object.values(CHARS).some(x => x.name.uk === names.cname || x.name.en === names.cname)) setNames(n => ({ ...n, cname: c.name[s.lang] })); }}

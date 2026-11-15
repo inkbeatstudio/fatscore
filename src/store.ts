@@ -1,7 +1,7 @@
 import Dexie, { type Table } from 'dexie';
 import { useSyncExternalStore } from 'react';
 import type { Effect, State } from './types';
-import { freshState, onOpen, STATE_VERSION, ensureToday } from './logic/game';
+import { freshState, onOpen, ensureToday, migrateState } from './logic/game';
 
 class DB extends Dexie {
   kv!: Table<{ key: string; value: unknown }, string>;
@@ -18,17 +18,7 @@ let storageOk = true;
 const listeners = new Set<() => void>();
 const fxListeners = new Set<(fx: Effect[]) => void>();
 
-function migrate(raw: any): State {
-  const base = freshState(raw?.lang || 'uk');
-  const s: State = { ...base, ...raw, profile: { ...base.profile, ...(raw?.profile || {}) }, settings: { ...base.settings, ...(raw?.settings || {}) },
-    stats: { ...base.stats, ...(raw?.stats || {}) }, eq: { ...base.eq, ...(raw?.eq || {}) } };
-  for (const k of Object.keys(s.days)) {
-    const d: any = s.days[k];
-    s.days[k] = { habits: {}, quests: {}, rewards: {}, gamePlays: 0, workouts: [], foods: [], water: 0, steps: 0, rest: false, ...d };
-  }
-  s.v = STATE_VERSION;
-  return s;
-}
+const migrate = (raw: any): State => migrateState(raw);
 
 export async function initStore() {
   try {

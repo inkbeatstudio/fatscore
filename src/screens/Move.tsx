@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { act, useApp } from '../store';
-import { useT, openSheet } from '../components/ui';
+import { act, useApp, emitEffects } from '../store';
+import { useT, openSheet, ScreenHeader } from '../components/ui';
+import { back, go } from '../nav';
+import { parseTrackFile, ACT_MET } from '../services/geo';
+import { dkey, daysBetween } from '../logic/dates';
 import { Character } from '../components/art';
 import { Icon } from '../components/Icon';
 import { addSteps, addWorkout, logStrength, removeWorkout, setRest, stageOf } from '../logic/game';
 import { metKcal } from '../logic/nutrition';
-import { CARDIO, CITIES, SHORT, STRENGTH, type ShortW } from '../data/exercise';
+import { CARDIO, SHORT, STRENGTH, type ShortW } from '../data/exercise';
 import { today } from '../logic/dates';
 import { fmt, plural } from '../i18n';
 import { haptic } from '../services/feedback';
@@ -16,35 +19,28 @@ export default function Move() {
   const d = s.days[today()];
   const nn = s.profile.noNum;
   const [mode, setMode] = useState<'strength' | 'cardio' | 'short'>('strength');
-  const idx = CITIES.findIndex(c => c.km > s.km);
-  const to = CITIES[idx < 0 ? CITIES.length - 1 : idx];
-  const from = CITIES[Math.max(0, (idx < 0 ? CITIES.length : idx) - 1)];
-  const prog = Math.max(0, Math.min(1, (s.km - from.km) / (to.km - from.km || 1)));
-  const visited = CITIES.filter(c => c.km > 0 && c.km <= s.km);
   const [custom, setCustom] = useState('');
+  const file = useRef<HTMLInputElement>(null);
+  const importFile = async (f: File) => {
+    try {
+      const r = parseTrackFile(await f.text());
+      const date = dkey(new Date(r.start));
+      const names = { walk: { uk: 'Прогулянка', en: 'Walk' }, run: { uk: 'Біг', en: 'Run' }, bike: { uk: 'Велосипед', en: 'Ride' }, hike: { uk: 'Похід', en: 'Hike' } };
+      if (daysBetween(date, today()) < 0) throw new Error('future');
+      act(x => addWorkout(x, { kind: 'cardio', name: names[r.kind], detail: `${r.min} ${t('хв', 'min')}`, min: r.min, km: r.km, kcal: metKcal(ACT_MET[r.kind], x.profile.weight, r.min), source: 'gpx', route: r.route }, date));
+    } catch { emitEffects([{ type: 'toast', icon: 'info', text: t('Не вдалося прочитати файл. Потрібен GPX або TCX з маршрутом.', 'Couldn\'t read the file. A GPX or TCX file with a route is needed.') }]); }
+  };
 
   return (
     <main className="screen">
-      <div className="pad"><h1 className="h1">{t('Рух', 'Move')}</h1></div>
+      <ScreenHeader title={t('Рух', 'Move')} onBack={back} />
 
-      <section className="pad" style={{ marginTop: 14 }}>
+      <section className="pad" style={{ marginTop: 10 }}>
         <div className="stack" style={{ background: 'var(--mustard)', color: '#3B1E3F', borderRadius: 28, padding: '18px 18px 16px', gap: 10 }}>
-          <div className="row-c" style={{ justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
-            <span className="disp" style={{ fontWeight: 700, fontSize: 18 }}>{t.l(from.name)} — {t.l(to.name)}</span>
-            <span style={{ fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap' }}>{idx < 0 ? t('маршрут пройдено!', 'route complete!') : `${t('ще', '')} ${fmt(Math.max(0, to.km - s.km), s.lang, 1)} ${t('км', 'km to go')}`}</span>
+          <div className="row-c" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
+            <span className="disp" style={{ fontWeight: 800, fontSize: 30 }}>{fmt(d.steps, s.lang)}</span>
+            <span style={{ fontSize: 13, fontWeight: 700 }}>{t('кроків сьогодні', 'steps today')}</span>
           </div>
-          <svg viewBox="-16 -4 378 50" width="100%" height="50" style={{ overflow: 'visible' }} role="img" aria-label={t(`Пройдено ${fmt(s.km, 'uk', 1)} км`, `${fmt(s.km, 'en', 1)} km travelled`)}>
-            <path d="M8 28c60-24 120 18 180-4s110-12 150-2" stroke="#3B1E3F" strokeWidth="3" strokeDasharray="2 8" strokeLinecap="round" fill="none" opacity=".45" />
-            <circle cx="8" cy="28" r="6" fill="#3B1E3F" />
-            <circle cx="338" cy="22" r="7" fill="#F0B429" stroke="#3B1E3F" strokeWidth="3" />
-            <g transform={`translate(${8 + prog * 330 - 14} 2)`} style={{ transition: 'transform 1s cubic-bezier(.34,1.56,.64,1)' }}>
-              <circle cx="14" cy="16" r="13" fill="#E5462B" stroke="#FFF1D6" strokeWidth="3" /><circle cx="10" cy="13" r="2" fill="#FFF1D6" /><circle cx="18" cy="13" r="2" fill="#FFF1D6" />
-            </g>
-          </svg>
-          <span style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.4 }}>{t(`${s.profile.cname} подорожує твоїми кілометрами: кроки, ходьба, біг і велосипед. У місті ${to.name.uk} чекає сувенір: ${to.souvenir.uk.toLowerCase()}.`, `${s.profile.cname} travels on your kilometres: steps, walks, runs and rides. ${to.name.en} has a souvenir waiting: ${to.souvenir.en.toLowerCase()}.`)}</span>
-          {visited.length > 0 && <span style={{ fontSize: 12.5, fontWeight: 600 }}>{t('Сувеніри', 'Souvenirs')}: {visited.map(c => t.l(c.souvenir)).join(', ')}</span>}
-          <div style={{ height: 1, background: 'rgba(59,30,63,.15)', margin: '4px 0' }} />
-          <span style={{ fontWeight: 700, fontSize: 14 }}>{t('Кроки сьогодні', 'Steps today')}: {fmt(d.steps, s.lang)}</span>
           <div className="row-c" style={{ gap: 8, flexWrap: 'wrap' }}>
             {[1000, 3000, 5000].map(v => <button key={v} className="chip press" style={{ background: '#FFF1D6', color: '#3B1E3F', boxShadow: 'none' }} onClick={() => act(x => addSteps(x, v))}>+{fmt(v, s.lang)}</button>)}
             <form className="row-c" style={{ gap: 6, flex: 1, minWidth: 140 }} onSubmit={e => { e.preventDefault(); const v = parseInt(custom); if (v > 0) { act(x => addSteps(x, v)); setCustom(''); } }}>
@@ -52,8 +48,31 @@ export default function Move() {
               <button className="chip press" type="submit" style={{ background: '#3B1E3F', color: '#FFF1D6', boxShadow: 'none' }}>OK</button>
             </form>
           </div>
-          <span style={{ fontSize: 12, opacity: 0.8, lineHeight: 1.4 }}>{t('Автоматичні кроки з телефона й годинника з\'являться в мобільній версії (Health Connect і Apple Health).', 'Automatic steps from your phone or watch will come with the mobile app (Health Connect and Apple Health).')}</span>
         </div>
+      </section>
+
+      <section className="pad grid2" style={{ marginTop: 12 }}>
+        <button className="press stack" onClick={() => go('track')} style={{ gap: 8, padding: 16, borderRadius: 24, background: 'var(--ink)', color: 'var(--bg)', textAlign: 'left', minHeight: 128 }}>
+          <Icon name="map" size={28} />
+          <span style={{ fontWeight: 700, fontSize: 15.5, lineHeight: 1.2 }}>{t('Записати маршрут з GPS', 'Record a GPS route')}</span>
+          <span style={{ fontSize: 12.5, opacity: 0.8 }}>{t('Прогулянка, біг, велосипед', 'Walk, run, ride')}</span>
+        </button>
+        <button className="press stack" onClick={() => file.current?.click()} style={{ gap: 8, padding: 16, borderRadius: 24, background: 'var(--surface)', textAlign: 'left', minHeight: 128 }}>
+          <Icon name="upload" size={28} style={{ color: 'var(--olive)' }} />
+          <span style={{ fontWeight: 700, fontSize: 15.5, lineHeight: 1.2 }}>{t('Імпорт з годинника', 'Import from a watch')}</span>
+          <span className="muted" style={{ fontSize: 12.5 }}>{t('Файл GPX або TCX', 'GPX or TCX file')}</span>
+        </button>
+        <input ref={file} type="file" accept=".gpx,.tcx,application/gpx+xml,application/xml,text/xml" hidden onChange={e => { const f = e.target.files?.[0]; if (f) importFile(f); e.target.value = ''; }} />
+      </section>
+      <section className="pad" style={{ marginTop: 10 }}>
+        <details className="card" style={{ padding: '12px 16px' }}>
+          <summary style={{ fontWeight: 700, fontSize: 14.5, cursor: 'pointer', minHeight: 32, display: 'flex', alignItems: 'center' }}>{t('Як підключити фітнес-трекер', 'How to connect a fitness tracker')}</summary>
+          <div className="stack" style={{ gap: 8, fontSize: 13.5, lineHeight: 1.5, marginTop: 8 }}>
+            <p><b>{t('Вже зараз:', 'Right now:')}</b> {t('експортуй тренування як GPX або TCX із Garmin Connect, Strava, Polar Flow, Coros, Suunto чи Samsung Health і натисни «Імпорт з годинника». Відстань, час і маршрут додадуться в щоденник за правильний день.', 'export a workout as GPX or TCX from Garmin Connect, Strava, Polar Flow, Coros, Suunto or Samsung Health and tap «Import from a watch». Distance, time and route go into your diary on the right day.')}</p>
+            <p><b>{t('У мобільному застосунку:', 'In the mobile app:')}</b> {t('кроки, сон і тренування автоматично з Health Connect (Android) та Apple Health (iPhone, Apple Watch), фоновий GPS.', 'automatic steps, sleep and workouts from Health Connect (Android) and Apple Health (iPhone, Apple Watch), background GPS.')}</p>
+            <p><b>{t('З сервером:', 'With a server:')}</b> {t('пряма синхронізація зі Strava, Garmin, Fitbit, Polar.', 'direct sync with Strava, Garmin, Fitbit, Polar.')}</p>
+          </div>
+        </details>
       </section>
 
       <section className="pad stack" style={{ marginTop: 22, gap: 12 }}>
